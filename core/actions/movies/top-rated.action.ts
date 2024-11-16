@@ -8,9 +8,13 @@ interface Options {
 }
 
 
-export const topRatedAction = async  () => {
+export const topRatedAction = async  ({page = 1, limit = 10}: Options) => {
     try {
-        const {data} = await movieApi.get<MovieDBMoviesResponse>('/top_rated')
+        const {data} = await movieApi.get<MovieDBMoviesResponse>('/top_rated',{ 
+            params: {
+                page
+            }
+        })
         const movies = data.results.map(MovieMapper.fromTheMovieDBToMovie)
         return movies;
     } catch (error) {
